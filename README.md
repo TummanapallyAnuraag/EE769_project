@@ -40,7 +40,7 @@ We have implemented DBSCAN Algorithm from scratch, and tried to use this algorit
 [Source: Research Gate]
 
 # Future Work
-We can also make a Web Page and have a live demo of DBSCAN Algorithm, `checkout to Python_Web` to check that, but it is still in development though... you are always welcome to collaborate, just get in contact with the authors.
+We can also make a Web Page and have a live demo of DBSCAN Algorithm, `checkout to Python_Web branch` to check that, but it is still in development though... you are always welcome to collaborate, just get in contact with the authors.
 
 # FAQs
 * Did you know that `pip install --user numpy` will install numpy only for the current user
