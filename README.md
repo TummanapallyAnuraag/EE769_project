@@ -8,8 +8,8 @@ Please run the following command in terminal.
 ```
 Note: Double check that the branch which you are cloning or downloading is "master" branch
 ```
-# What is DBSCAN Actuall?
-DBSCAN is not any scanner though it seems so :P .
+# What is DBSCAN Actually?
+DBSCAN is not any scanner, though it seems so :P .
 
 **DBSCAN - Density Based Spatial Clustering of Applications with Noise** is a data clustering algorithm proposed by Martin Ester, Hans-Peter Kriegel, Jörg Sander and Xiaowei Xu in 1996.
 
@@ -25,6 +25,8 @@ Following Python packages are required
 # About code
 DBSCAN.py is the code for DBSCAN class and algorithm
 
+main.py is the one to be run for simulation, csv file for input is in "data" folder
+
 # References
 * We have gone through the code from this [Repo](https://github.com/madhug-nadig/Machine-Learning-Algorithms-from-Scratch)
 
@@ -33,7 +35,7 @@ DBSCAN.py is the code for DBSCAN class and algorithm
 * Slides from EE769 Lectures (2018)
 
 # Data
-We have implemented only DBSCAN algorithm from scratch, and tried to use this algorithm on a "GasEmissions" data of all sates in India
+We have implemented DBSCAN Algorithm from scratch, and tried to use this algorithm on a "GasEmissions" data of all sates in India
 
 [Source: Research Gate]
 
