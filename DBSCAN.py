@@ -69,12 +69,8 @@ class DBSCAN:
             	# This line is executed when the point is either not noise or not processed yet
             	label[k] = self.clusterCount		# Label it as belonging to new cluster we created
             	other_neighbours = self.RangeQuery(data, k) # Check for neighbourhood of connected points
-            	if len(other_neighbours) >= self.minPts:	# If they are more than min Points then	add them to connected points list 
+            	if len(other_neighbours) >= self.minPts:	# If they are more than min Points then	add them to connected points list
             		seed_set = np.append(seed_set, other_neighbours)
             # print(seed_set)
             # After this, for loop all points are labelled
-            return label
-
-
-dbs = DBSCAN(2**0.5, 3)
-label = dbs.cluster(np.array([ [0,0], [5,5], [11,11], [11, 10], [1,1], [1,0], [10, 10], [100,100] , [2,3]]))
+        return label
