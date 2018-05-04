@@ -76,12 +76,3 @@ class DBSCAN:
             # After this, for loop all points are labelled
 
         return label
-
-
-dbs = DBSCAN(2**0.5, 3)
-df = pd.read_csv('browser_request.csv')
-
-label = dbs.cluster(df.values)
-# df = pd.DataFrame(label)
-# df.to_csv("labels.csv")
-print(label)
