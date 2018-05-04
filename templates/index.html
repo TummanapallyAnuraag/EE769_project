@@ -2,14 +2,74 @@
 <html>
 <head>
 <title>Page Title</title>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
+<script src="jq.js"></script>
 <script>
+
+function do_clustering(){
+    jQuery.ajax({
+        url: "cluster",
+        method: "GET",
+        data: {
+            coordinates: JSON.stringify(data),
+            epsilon: jQuery('#epsilon').val(),
+            min_pts: jQuery('#min_pts').val()
+        },
+        beforeSend: function(){
+            jQuery('#loader').show();
+        },
+        success: function(result){
+            res_str = result.replace('[', '').replace(']', '').split(',');
+            label = [];
+            var i=0;
+            res_str.forEach(function(e){
+                label[i] = Number(e);
+                if(label[i] < 0){
+                    label[i] = 0;
+                }
+                i = i + 1;
+            });
+            console.log(label);
+            Max_label = Math.max.apply(Math, label);
+            hue = label.map(function(x){
+                return x*360/Max_label;
+            });
+            console.log(hue);
+            set_hue_values(hue);
+        },
+        complete: function(){
+            jQuery('#loader').hide();
+        }
+    });
+}
+
+function set_hue_values(hue){
+    jQuery('.dot').each(function(i,e){
+        element = jQuery(this);
+        count = Number(jQuery(this).attr('count'));
+        // old_style = '';
+        // old_style = jQuery(this).attr('style');
+        x_val = jQuery(this).attr('x');
+        y_val = jQuery(this).attr('y');
+        new_style = "position:absolute;top:"+y_val+"px;left:"+x_val+"px;background-color: hsl("+hue[count]+",100%, 50%)";
+        // new_style = old_style + 'background-color: hsl('+hue[count]+',100%,50%);';
+        jQuery(this).attr('style', new_style);
+        jQuery(this).attr('label',label[count]);
+    });
+}
+
 jQuery(document).ready(function(){
+    window.dot_count = 0;
+    jQuery('#clear_all').on('click', function(){
+        jQuery('.dot').remove();
+        window.dot_count = 0;
+    });
+
     jQuery('#ground').on('click',function(e){
         offset = jQuery(this).offset();
         x = e.pageX - offset.left;
         y = e.pageY - offset.top;
-        jQuery(this).append('<div class="dot" x="'+x+'" y="'+y+'" style="position:absolute;top:'+y+'px;left:'+x+'px;"></div>');
+        jQuery(this).append('<div class="dot" count="'+window.dot_count+'" x="'+x+'" y="'+y+'" style="position:absolute;top:'+y+'px;left:'+x+'px;"></div>');
         element = jQuery(this);
         data = [];
         jQuery(this).find('.dot').each(function(i, val){
@@ -17,14 +77,14 @@ jQuery(document).ready(function(){
             data[i].x = jQuery(val).attr('x');
             data[i].y = jQuery(val).attr('y');
         });
-        jQuery.ajax({
-            url: "cluster",
-            method: "GET",
-            data: {coordinates: JSON.stringify(data)},
-            success: function(result){
-                console.log(result);
-            }
-        });
+        window.dot_count++;
+        do_clustering();
+    });
+
+    jQuery('#epsilon, #min_pts').on('change', function(e){
+        if(jQuery('.dot').length > 0){
+            do_clustering();
+        }
     });
 });
 </script>
@@ -39,15 +99,28 @@ jQuery(document).ready(function(){
         background-color: red;
         width: 3px;
         height: 3px;
+        border-radius: 2px;
+    }
+    #loader{
+        background-color: #000000b8;
+        position: absolute;
+        z-index: 100;
+        top: 0px;
+        bottom: 0px;
+        left: 0px;
+        right: 0px;
     }
 </style>
 </head>
 <body>
-
+<div id='loader' style='display: none;'>
+</div>
 <h1>This is a Heading</h1>
 <p>This is a paragraph.</p>
+<input id="epsilon" value="50">
+<input id="min_pts" value="1">
 <div id="ground"></div>
-<button >Click!</button>
+<button id="clear_all">clear all</button>
 </body>
 
 </html>
